@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +29,15 @@ public class Java8 {
     public List<String> filterEvenNumbers(List<Integer> values) {
         return values.stream()
                 .filter(number -> number % 2 == 0)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Demonstrates use of java.util.function.Predicate with Streams.
+     */
+    public List<String> filterWithPredicate(List<String> values, Predicate<String> predicate) {
+        return values.stream()
+                .filter(predicate)
                 .collect(Collectors.toList());
     }
 
