@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: payments-bank
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: bank_payments
+      POSTGRES_USER: postgres_payments_admin
+      POSTGRES_PASSWORD: postgres_payments_pqd
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - payments_data:/var/lib/postgresql/data
+      - ../scripts:/docker-entrypoint-initdb.d:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bank"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  payments_data:
