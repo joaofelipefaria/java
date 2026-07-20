@@ -30,4 +30,14 @@ public class DebitController {
         );
     }
 
+    @PostMapping("/rollback")
+    @ResponseStatus(HttpStatus.CREATED)
+    public OperationDTO rollback(@Valid @RequestBody DebitRequest request) {
+
+        return operationService.deposit(
+                request.accountId(),
+                request.value()
+        );
+    }
+
 }

@@ -29,4 +29,14 @@ public class CreditController {
         );
     }
 
+    @PostMapping("/rollback")
+    @ResponseStatus(HttpStatus.CREATED)
+    public OperationDTO creditRollBack(@RequestBody CreditRequest request) {
+
+        return creditService.rollBack(
+                request.accountId(),
+                request.value()
+        );
+    }
+
 }

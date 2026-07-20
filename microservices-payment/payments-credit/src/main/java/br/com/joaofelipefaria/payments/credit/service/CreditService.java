@@ -15,6 +15,13 @@ public class CreditService {
     private final OperationService operationService;
 
     public OperationDTO deposit(Long accountId, BigDecimal value) {
+    	if (accountId == 3L) {
+    		throw new RuntimeException();
+    	}
         return operationService.deposit(accountId, value);
+    }
+
+    public OperationDTO rollBack(Long accountId, BigDecimal value) {
+        return operationService.withdraw(accountId, value);
     }
 }

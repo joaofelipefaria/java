@@ -12,4 +12,6 @@ public interface DebitClient {
 
     @PostMapping("/debit")
     OperationDTO debit(@RequestBody OperationRequest request);
+    @PostMapping("/debit/rollback")
+    OperationDTO rollback(@RequestBody OperationRequest request);
 }

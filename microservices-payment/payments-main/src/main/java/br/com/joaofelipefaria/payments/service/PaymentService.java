@@ -14,14 +14,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    private final DebitClient debitClient;
-    private final CreditClient creditClient;
+	private final DebitClient debitClient;
+	private final CreditClient creditClient;
 
-    public PaymentResponse processPayment(Long originAccountId, Long destinyAccountId, BigDecimal value) {
-    	OperationRequest debitRequest = new OperationRequest(originAccountId, value);
-    	OperationRequest creditRequest = new OperationRequest(destinyAccountId, value);
-        debitClient.debit(debitRequest);
-        creditClient.credit(creditRequest);
-        return new PaymentResponse(originAccountId, destinyAccountId, value, "SUCCESS");
-    }
+	public PaymentResponse processPayment(Long originAccountId, Long destinyAccountId, BigDecimal value) {
+		OperationRequest debitRequest = new OperationRequest(originAccountId, value);
+		OperationRequest creditRequest = new OperationRequest(destinyAccountId, value);
+
+		debitClient.debit(debitRequest);
+		try {
+			creditClient.credit(creditRequest);
+		} catch (Exception e) {
+			debitClient.rollback(debitRequest);
+		}
+		return new PaymentResponse(originAccountId, destinyAccountId, value, "SUCCESS");
+	}
 }

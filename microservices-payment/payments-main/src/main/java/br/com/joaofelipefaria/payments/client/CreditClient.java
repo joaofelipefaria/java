@@ -12,4 +12,6 @@ public interface CreditClient {
 
     @PostMapping("/credit")
     OperationDTO credit(@RequestBody OperationRequest request);
+    @PostMapping("/debit/rollback")
+    OperationDTO rollback(@RequestBody OperationRequest request);
 }
